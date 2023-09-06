@@ -1,53 +1,80 @@
-## Miro drag and drop app
+# Miro Flask Python Starter with OAuth
 
-**&nbsp;ℹ&nbsp;Note**:
+This app shows how to implement the OAuth2.0 flow and call the Miro REST API's [Create Board](https://developers.miro.com/reference/create-board) endpoint, using Flask / Python.
 
-- We recommend a Chromium-based web browser for local development with HTTP. \
-  Safari enforces HTTPS; therefore, it doesn't allow localhost through HTTP.
-- All examples use `npm` as a package manager and `npx` as a package runner. \
-  If you prefer, you can install and use equivalent alternatives, such as `yarn` or `pnpm`.
-- For more information about implementing [drag and drop](https://developers.miro.com/docs/add-drag-and-drop-to-your-app), visit our [developer documentation](https://developers.miro.com).
+# 👨🏻‍💻 App Demo
+https://github.com/miroapp/app-examples/assets/10800544/767dba77-c3dd-40b0-b6d7-9b216f0fb0b8
 
-### How to start locally
+# 📒 Table of Contents
 
-1. Run `npm install` to install dependencies.
-2. Run `npm start` to start developing. \
-   Your URL should be similar to this example:
+- [Included Features](#features)
+- [Tools and Technologies](#tools)
+- [Prerequisites](#prerequisites)
+- [Run the app locally](#run)
+- [Folder Structure](#folder)
+- [Contributing](#contributing)
+- [License](#license)
+
+# ⚙️ Included Features <a name="features"></a>
+
+- [Miro REST API](https://developers.miro.com/reference/api-reference)
+- [Miro OAuth2.0](https://developers.miro.com/docs/getting-started-with-oauth)
+
+# 🛠️ Tools and Technologies <a name="tools"></a>
+
+- [Flask](https://flask.palletsprojects.com/en/2.1.x/)
+- [Python](https://www.python.org/)
+
+# ✅ Prerequisites <a name="prerequisites"></a>
+
+- You have a [Miro account](https://miro.com/signup/).
+- You're [signed in to Miro](https://miro.com/login/).
+- Your Miro account has a [Developer team](https://developers.miro.com/docs/create-a-developer-team).
+- Your development environment includes [Node.js 14.13](https://nodejs.org/en/download) or a later version.
+- You have the latest versions of Flask and Python installed.
+
+# 🏃🏽‍♂️ Run the app locally <a name="run"></a>
+1. Install the project dependenciesAwes by running `pip3 install -r requirements.txt`
+2. Create your `.env` file by copying the template, and use it to store your credentials: 
    ```
-   http://localhost:3000
+   cp sample.env .env
    ```
-3. Open the [app manifest editor](https://developers.miro.com/docs/manually-create-an-app#step-2-configure-your-app-in-miro) by clicking **Edit in Manifest**. \
+3. In your account profile, go to **Your apps**, and then select the app you just created to access its settings page. \
+   On the app settings page:
+   - Go to **App Credentials**, and copy the app **Client ID** and **Client secret** values.
+   - Paste these details to your `.env` file's `clientID` and `clientSecret` variables.
+4. From your App Settings page, open the [app manifest editor](https://developers.miro.com/docs/manually-create-an-app#step-2-configure-your-app-in-miro) by clicking **Edit in Manifest**. \
    In the app manifest editor, configure the app as follows:
-   - [`sdkUri`](https://developers.miro.com/docs/app-manifest#sdkuri): assign `http://localhost:3000` as a value for this property. \
-     It defines the entry point of the app, and it corresponds to the URL of the server that the app runs on.
+
+   - [`redirectUris`](https://developers.miro.com/docs/app-manifest#redirecturis): assign `http://127.0.0.1:5000/callback` as a value for this property. \
+     It defines the redirect URL that starts the OAuth 2.0 code grant flow for the REST API.
    - [`scopes`](https://developers.miro.com/docs/app-manifest#scopes): add the permission scopes that users need to grant the app when they install it. \
      To enable the app to read from and write to the board, add the following permissions:
      - `boards:read`
-     - `boards:write`
-4. Open a board: you should see your app in the apps toolbar or in the apps panel.
+     - `boards:write`\
+\
+Hit **Save**.
 
-### How to build the app
+5. Run the app with `python3 app.py`
+6. Open the page at `http://127.0.0.1:5000`
 
-- Run `npm run build`. \
-  This generates a static output inside `dist/`, which you can host on a static hosting service.
-
-### Folder structure
+# 🗂️ Folder structure <a name="folder"></a>
 
 ```
 .
-├── src
-│  └── styles
-│      └── style.css <-- CSS styles for the app.
-│  └── App.tsx <-- The main app. Contains structure for the sidebar when launched. This file also contains logic for fetching images from [The Noun Project](https://thenounproject.com/).
-│      main.tsx <-- Initializes app, and contains logic for dropping image onto the board.
-├── app.html <-- The app itself. This is loaded on the board inside the 'appContainer'.
-└── index.html <-- The app entry point. This is the value you assign to 'sdkUri' in the app manifest file.
+├── templates
+│  └── index.html <-- The html view for users who have not yet authorized Miro
+│  └── loggedin.html <-- The html view for users who have authorized Miro
+│
+├── app.py <-- The python script. This script runs Miro's OAuth flow and calls the Miro REST API.
+├── sample.env <-- Sample .env file to show format of environment variables
+└── requirements.txt <-- The python requirements file
 ```
 
-### About the app
+# 🫱🏻‍🫲🏽 Contributing <a name="contributing"></a>
 
-This sample app shows how you can drag and drop images onto a Miro board. \
-Built in React off of the [`create-miro-app`](https://www.npmjs.com/package/create-miro-app) React/Typescript starter.
+If you want to contribute to this example, or any other Miro Open Source project, please review [Miro's contributing guide](https://github.com/miroapp/app-examples/blob/main/CONTRIBUTING.md).
 
-This app uses [Vite](https://vitejs.dev/). \
-If you want to modify the `vite.config.js` configuration, see the [Vite documentation](https://vitejs.dev/guide/).
+# 🪪 License <a name="license"></a>
+
+[MIT License](https://github.com/miroapp/app-examples/blob/main/LICENSE).
